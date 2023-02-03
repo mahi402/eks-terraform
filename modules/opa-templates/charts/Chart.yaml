@@ -1,0 +1,4 @@
+apiVersion: v2
+name: opa-templates
+version: 0.0.4
+appVersion: 0.0.1
