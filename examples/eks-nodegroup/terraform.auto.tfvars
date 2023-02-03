@@ -7,7 +7,7 @@ AppID              = "3402"
 Environment        = "Dev"      #Dev, Test, QA, Prod (only one) */
 DataClassification = "Internal" #Public, Internal, Confidential, Restricted, Privileged (only one)
 CRIS               = "Low"      #"Cyber Risk Impact Score High, Medium, Low (only one)"
-Notify             = ["dfsd", "df", "fsd"]
+Notify             = ["dfsd@tek.com", "df@tek.com", "fsd@tek.com"]
 Owner              = ["sdf", "sdf", "dsfd"] #"List three owners of the system, as defined by AMPS Director, Client Owner and IT Leadeg"
 Compliance         = ["SOX", "HIPAA"]
 

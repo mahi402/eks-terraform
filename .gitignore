@@ -1,7 +1,7 @@
 #
 # Filename    : .gitignore
 # Date        : 15 Nov 2021
-# Author      : Balaji Venkataraman (xbalaji@pge.com)
+
 # Description : gitignore to avoid temporary files from change
 #               set and accidental commit, push to the repo
 #               ref: https://git-scm.com/docs/gitignore
