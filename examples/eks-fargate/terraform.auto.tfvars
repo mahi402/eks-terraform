@@ -1,50 +1,32 @@
 
 #account_num = "750713712981"
 account_num        = "514712703977"
-aws_region         = "us-west-2"
+aws_region         = "us-east-1"
 aws_role           = "CloudAdmin"
 user               = "m7tc"
 AppID              = "443"
 Environment        = "Dev"      #Dev, Test, QA, Prod (only one) */
 DataClassification = "Internal" #Public, Internal, Confidential, Restricted, Privileged (only one)
 CRIS               = "Low"      #"Cyber Risk Impact Score High, Medium, Low (only one)"
-Notify             = ["vxyk@pge.com", "sukx@pge.com", "m7tc@pge.com"]
+Notify             = ["sdf@tek.com", "sukx@tek.com", "m7tc@tek.com"]
 Owner              = ["vxyk", "sukx", "m7tc"] #"List three owners of the system, as defined by AMPS Director, Client Owner and IT Leadeg"
 Compliance         = ["SOX", "HIPAA"]
 
-#uncomment this value,if testing from TFC, the value is passed to respective role arn and will be assuming for eks token generation
-terraformassumerole = "TFCBProvisioningRole"
-#terraformassumerole = "CloudAdmin"
 k8s-version    = "1.23"    #kubernetes(eks) version, can be given latest
 cluster_name   = "farg-68" #------THIS TO BE CHANGED AS PER USER NEED
 fargate_type   = true
-eks-param-name = "/eks/fargate"
-#aws_ssm_parameters                                                 
-parameter_vpc_id_name = "/vpc/id"
-###for aws 750713712981 subnets
-#parameter_subnet_id1_name = "/vpc/2/privatesubnet1/id"
-#parameter_subnet_id2_name = "/vpc/2/privatesubnet2/id"
-#parameter_subnet_id3_name = "/vpc/2/privatesubnet3/id"
-##for aws 514712703977 subnets
+
+##aws_ssm_parameter ####
+parameter_vpc_id_name     = "/vpc/id"
 parameter_subnet_id1_name = "/vpc/privatesubnet1/id"
-parameter_subnet_id2_name = "/vpc/privatesubnet2/id"
-parameter_subnet_id3_name = "/vpc/privatesubnet3/id"
+parameter_subnet_id2_name = "/vpc/privatesubnet3/id"
+parameter_subnet_id3_name = "/vpc/privatesubnet2/id"
 
 
-
-#######################################
-# RBAC Variables , that are need to be set by developers only.
-#######################################
-
-application_team_role     = "SuperAdmin"
-readonly_roles            = ["readonly"]
-create_aws_auth_configmap = false
-
-### KMS key needed for cluster encryption
-
-aws_kms_key_arn = "arn:aws:kms:us-west-2:514712703977:key/e41b54e1-23ca-4906-8ca0-417f10463731"
+##KMS key for encrypting the EKS cluster
+aws_kms_key_arn = "arn:aws:kms:us-east-1:190976900177:key/45c1444a-6bdd-4fdb-aee2-a12d9bcf555b"
 #aws_kms_key_arn                     = "arn:aws:kms:us-west-2:750713712981:key/9e70ed49-99f9-48b0-83a2-1ca4d95fad36"
-enable_aws_load_balancer_controller = false # Load Balancer controller installation
+enable_aws_load_balancer_controller = true # Load Balancer controller installation
 enable_kube_state_metrics           = false
 
 ####External dns controller installation....below 3 parameter are required

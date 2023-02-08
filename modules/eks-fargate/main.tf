@@ -208,24 +208,26 @@ module "lambda_iam_role" {
 
 
 
-module "lambda_function" {
-  source  = "../lambda_local"
-  #version = "0.0.7"
-
-  function_name                 = join("-", [var.cluster_name, "bootstrap"])
-  role                          = module.lambda_iam_role.arn
-  description                   = "eks-fargate coredns patch aws lambda"
-  runtime                       = "python3.7"
-  local_zip_source_directory    = "${path.module}/lambda"
-  tags                          = var.tags
-  vpc_config_security_group_ids = [module.coredns_bootstrap_sg.sg_id]
-  vpc_config_subnet_ids         = [data.aws_ssm_parameter.subnet_id1.value, data.aws_ssm_parameter.subnet_id2.value]
-  handler                       = "main.handler"
+data "archive_file" "bootstrap_archive" {
+  type        = "zip"
+  source_file = "${path.module}/lambda/main.py"
+  output_path = "${path.module}/lambda/python.zip"
 }
 
+resource "aws_lambda_function" "bootstrap" {
+  function_name    = join("-", ["${var.cluster_name}", "bootstrap"])
+  runtime          = "python3.7"
+  handler          = "main.handler"
+  role             = module.lambda_iam_role.arn
+  filename         = data.archive_file.bootstrap_archive.output_path
+  source_code_hash = data.archive_file.bootstrap_archive.output_base64sha256
+  timeout          = 120
+  vpc_config {
+    subnet_ids         = [data.aws_ssm_parameter.subnet_id1.value, data.aws_ssm_parameter.subnet_id2.value]
+    security_group_ids = [module.coredns_bootstrap_sg.sg_id]
+  }
 
-
-
+}
 
 
 ###To wait or coredns pod to come running state or unauthorized error comes in rbac module
@@ -252,16 +254,10 @@ data "aws_eks_cluster_auth" "eks-cluster-auth" {
   ]
 }
 
-data "aws_arn" "lambda_arn" {
-  arn = module.lambda_function.lambda_arn
-
-
-}
-
 
 ##########Lambda execution to path and restart coredns########################
 data "aws_lambda_invocation" "bootstrap2" {
-  function_name = split(":", data.aws_arn.lambda_arn.resource)[1]
+  function_name = aws_lambda_function.bootstrap.function_name
   input         = <<JSON
 {
   "endpoint": "${data.aws_eks_cluster.eks-cluster.endpoint}",

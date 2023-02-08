@@ -22,7 +22,6 @@ locals {
 #### Tags module ########
 module "tags" {
   source             = "../../modules/tags"
-  #version            = "0.0.3"
   AppID              = local.AppID
   Environment        = local.Environment
   DataClassification = local.DataClassification

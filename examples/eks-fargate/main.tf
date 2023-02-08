@@ -19,8 +19,7 @@ locals {
 #### Tags module ########
 
 module "tags" {
-  source             = "app.terraform.io/pgetech/tags/aws"
-  version            = "0.0.3"
+  source             = "../../modules/tags"
   AppID              = local.AppID
   Environment        = local.Environment
   DataClassification = local.DataClassification
@@ -38,8 +37,7 @@ module "tags" {
 
 module "eks-fargate" {
 
-  source  = "app.terraform.io/pgetech/eks/aws//modules/eks-fargate"
-  version = "0.0.14"
+  source             = "../../modules/eks-fargate"
   cluster_name              = var.cluster_name
   parameter_subnet_id1_name = var.parameter_subnet_id1_name
   parameter_subnet_id2_name = var.parameter_subnet_id2_name
@@ -56,7 +54,7 @@ module "eks-fargate" {
 }
 
 ##########for creating codebuild role###########
-
+/* 
 module "codebuild_iam_role_eks" {
   depends_on       = [module.eks-fargate]
   count            = var.create_codebuild_iam_role_eks ? 1 : 0
@@ -65,7 +63,7 @@ module "codebuild_iam_role_eks" {
   tags             = module.tags.tags
   policy_file_name = var.policy_file_name
 }
-
+ */
 ###Module to deploy all addons including load balancer,fluendtbit etc...##############
 #####Please input true or false in .tfvars#######
 
@@ -191,12 +189,4 @@ module "aws_eks_rbac" {
     }
 
   }
-}
-
-module "eks-ssm-param" {
-  source  = "app.terraform.io/pgetech/ssm/aws"
-  version = "0.0.1"
-  name    = var.eks-param-name
-  value   = var.cluster_name
-  tags    = module.tags.tags
 }

@@ -15,7 +15,7 @@ output "oidc_provider" {
 
 }
 
-output "codebuild_role_arn" {
+/* output "codebuild_role_arn" {
   value       = module.codebuild_iam_role_eks[*].role_arn
   description = "The Amazon Resource Name (ARN) specifying the code build role"
-}
+} */

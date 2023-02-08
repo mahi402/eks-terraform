@@ -41,11 +41,7 @@ variable "account_num" {
 
 }
 
-variable "terraformassumerole" {
-  type        = string
-  description = "the Role terraform scripts to assume to interact with aws"
 
-}
 variable "aws_region" {
   description = "AWS region"
   type        = string
@@ -276,13 +272,13 @@ variable "mem-evaluation-periods" {
 variable "application_team_role" {
   description = "The iam role by adfs which will be used by the application_team to perform kubeapi calls"
   type        = string
-  default     = ""
+  default     = "SuperAdmin"
 }
 
 variable "readonly_roles" {
   type        = list(string)
   description = " List of iam roles by adfs that would support the namespaces for troubleshooting"
-  default     = []
+  default     = ["readonly"]
 }
 variable "create_aws_auth_configmap" {
   description = "Where to create auth map or not"

@@ -70,8 +70,4 @@ variable "tags" {
   type        = map(string)
 }
 
-# validate the tags passed
-module "validate_tags" {
-  source = "app.terraform.io/pgetech/validate-pge-tags/aws"
-  tags   = var.tags
-}
+
